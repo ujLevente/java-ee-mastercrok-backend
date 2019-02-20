@@ -27,6 +27,7 @@ public class GamePlayServiceHandler {
         gameData.put("gameId", gameId);
         gameData.put("username", username);
         HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
+        log.info("Calling: " + gamePlayUrl + "creation");
         ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/creation", HttpMethod.POST, request, String.class);
     }
 
@@ -36,12 +37,14 @@ public class GamePlayServiceHandler {
         gameData.put("gameId", gameId);
         gameData.put("username", username);
         HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
+        log.info("Calling: " + gamePlayUrl + "/get-next-round/{gameId}");
         ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/get-next-round/" + gameId, HttpMethod.POST ,request,String.class);
         return response.getBody();
     }
 
 
     public String getNextRound(String gameId){
+        log.info("Calling: " + gamePlayUrl + "/get-next-round/{gameId}");
         String response = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
         return response;
     }
