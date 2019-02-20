@@ -22,7 +22,7 @@ public class Card {
 
     private String name;
 
-    private String url;
+    private String imgUrl;
 
     private int power;
 
