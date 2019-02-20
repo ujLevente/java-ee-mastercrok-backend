@@ -1,0 +1,12 @@
+#Template for application.properties, for proper working, copy it and fill it out as you see fit!
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/YOUR_DB_NAME -> default: mastercrok
+spring.datasource.username=YOUR_USER_NAME
+spring.datasource.password=YOUR_PASSWORD
+spring.jpa.hibernate.ddl-auto=create-drop
+
+spring.profiles.active=production
+
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+file.upload-dir=src/main/images
