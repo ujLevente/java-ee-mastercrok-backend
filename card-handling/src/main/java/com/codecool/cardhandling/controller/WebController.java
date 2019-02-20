@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 @RestController
@@ -58,11 +60,19 @@ public class WebController {
                 .body(resource);
     }
 
-    @GetMapping("/card/create")
-    public Card addCard() {
+    @GetMapping("/card/createDeck")
+    public Queue<Card> addCard() {
         List<Card> allCard = cardRepository.findAll();
         Random random = new Random();
-        return allCard.get(random.nextInt(allCard.size()-1) + 1);
+        Queue<Card> deck = new LinkedList<>();
+        while (deck.size() != 10) {
+            Card card = allCard.get(random.nextInt(allCard.size()-1) + 1);
+            if (!deck.contains(card)) {
+                deck.add(card);
+            }
+        }
+        log.info(deck.toString());
+        return deck;
     }
 
 }
