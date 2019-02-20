@@ -6,16 +6,11 @@ import com.codecool.websocket.repository.ChatHistoryDao;
 import com.codecool.websocket.service.GamePlayServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @CrossOrigin
@@ -67,7 +62,6 @@ public class MessageController {
         }
 
         response.put("status", true);
-        // TODO ask data for game, snad data to specific websocket
         String gameData = gamePlayServiceHandler.joinsecondUser(gameId, username);
         template.convertAndSend("/topic/" + gameId, gameData);
         return response;
