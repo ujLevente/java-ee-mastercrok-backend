@@ -3,14 +3,12 @@ package com.codecool.websocket.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -23,22 +21,21 @@ public class GamePlayServiceHandler {
     private String gamePlayUrl;
 
     public void createFirstUser(String gameId, String username){
-        Map<String, String> gameData = new HashMap<>();
-        gameData.put("gameId", gameId);
-        gameData.put("username", username);
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
+        HttpEntity<MultiValueMap<String, String>> request = createRequestForGamePlay(gameId, username);
+
         log.info("Calling: " + gamePlayUrl + "/creation");
-        ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/creation", HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(gamePlayUrl + "/creation", request , String.class);
+        System.out.println(response.getBody());
+
     }
 
-
     public String joinsecondUser(String gameId, String username){
-        Map<String, String> gameData = new HashMap<>();
-        gameData.put("gameId", gameId);
-        gameData.put("username", username);
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
+        HttpEntity<MultiValueMap<String, String>> request = createRequestForGamePlay(gameId, username);
+
         log.info("Calling: " + gamePlayUrl + "/get-next-round/{gameId}");
-        ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/get-next-round/" + gameId, HttpMethod.POST ,request,String.class);
+
+        //TODO fix to correct path
+        ResponseEntity<String> response = restTemplate.postForEntity(gamePlayUrl + "/get-next-round/" + gameId, request , String.class);
         return response.getBody();
     }
 
@@ -47,5 +44,15 @@ public class GamePlayServiceHandler {
         log.info("Calling: " + gamePlayUrl + "/get-next-round/{gameId}");
         String response = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
         return response;
+    }
+
+    private HttpEntity<MultiValueMap<String, String>> createRequestForGamePlay(String gameId, String username) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> gameData = new LinkedMultiValueMap<>();
+        gameData.add("gameId", gameId);
+        gameData.add("username", username);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(gameData, headers);
+        return request;
     }
 }

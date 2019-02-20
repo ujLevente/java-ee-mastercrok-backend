@@ -1,3 +1,4 @@
+/*
 package com.codecool.gameplay.config;
 
 import org.springframework.context.annotation.Bean;
@@ -12,3 +13,4 @@ public class AppConfig {
         return new RestTemplate();
     }
 }
+*/
