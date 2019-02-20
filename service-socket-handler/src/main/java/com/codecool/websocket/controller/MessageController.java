@@ -30,11 +30,10 @@ public class MessageController {
      * forwarded to Broker channel to be forwarded to the client via WebSocket
      */
     @MessageMapping("/all")
-    public void post(@Payload Map<String, String> message) {
-        message.put("timestamp", Long.toString(System.currentTimeMillis()));
-        System.out.println(message);
-        chatHistoryDao.save(message);
-        template.convertAndSend("/topic/"+message.get("authorId"), message);
+    public void post(Map<String, String> gameData) {
+
+
+        template.convertAndSend("/topic/" + gameData.get("gameId"), "working");
     }
 
 
