@@ -1,19 +1,19 @@
 package com.codecool.cardhandling.service;
 
+import com.codecool.cardhandling.exception.MyFileNotFoundException;
 import com.codecool.cardhandling.property.FileStorageProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Service
+@Component
 @Slf4j
 public class FileStorageService {
 
@@ -31,20 +31,19 @@ public class FileStorageService {
         }
     }
 
-    public Resource loadFileAsResource(String filename) {
-        Resource resource = null;
+    public Resource loadFileAsResource(String fileName) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(filename).normalize();
-            resource = new UrlResource(filePath.toUri());
-            if (resource.exists()) {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            log.info(filePath.toString());
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
                 return resource;
             } else {
-                throw new FileNotFoundException("File not found");
+                throw new MyFileNotFoundException("File not found " + fileName);
             }
-        } catch (MalformedURLException | FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException ex) {
+            throw new MyFileNotFoundException("File not found " + fileName, ex);
         }
-        return resource;
     }
 
 }
