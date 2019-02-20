@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class CardService {
+public class CardServiceCaller {
 
     @Autowired
     private RestTemplate restTemplate;
