@@ -26,3 +26,5 @@ HELP.md
 /build/
 
 .mvn
+
+config/application.properties
