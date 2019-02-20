@@ -43,7 +43,7 @@ public class MessageController {
 
     @RequestMapping("/create-game/{gameId}/{username}")
     public HttpStatus create(@PathVariable String gameId, @PathVariable String username) {
-        log.info("starting game with gameId: " + gameId);
+        log.info(username + " starting game with gameId: " + gameId);
         gameIds.add(gameId);
         gamePlayServiceHandler.createFirstUser(gameId, username);
         return HttpStatus.OK;
@@ -51,7 +51,7 @@ public class MessageController {
 
     @RequestMapping("/join-game/{gameId}/{username}")
     public Map<String, Boolean> joinGame(@PathVariable String gameId, @PathVariable String username) {
-        log.info("joining game on gameId = " + gameId);
+        log.info(username +" joining game on gameId = " + gameId);
         HashMap<String, Boolean> response = new HashMap<>();
 
         if (!gameIds.contains(gameId)) {

@@ -27,7 +27,7 @@ public class GamePlayServiceHandler {
         gameData.put("gameId", gameId);
         gameData.put("username", username);
         HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
-        log.info("Calling: " + gamePlayUrl + "creation");
+        log.info("Calling: " + gamePlayUrl + "/creation");
         ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/creation", HttpMethod.POST, request, String.class);
     }
 

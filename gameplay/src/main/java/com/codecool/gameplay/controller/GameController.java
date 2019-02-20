@@ -23,6 +23,7 @@ public class GameController {
 
     @GetMapping("/get-next-round/{gameId}")
     public Map<String, PlayerResponseData> nextRound(@PathVariable String gameId) {
+        log.info("CALLEDDDDDDDDDD");
         Map<String, PlayerResponseData> response = service.handleRound(gameId);
         return response;
     }
