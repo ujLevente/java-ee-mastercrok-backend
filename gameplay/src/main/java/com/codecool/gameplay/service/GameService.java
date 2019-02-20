@@ -1,7 +1,6 @@
 package com.codecool.gameplay.service;
 
-import com.codecool.gameplay.model.CardStat;
-import com.codecool.gameplay.model.Game;
+import com.codecool.gameplay.model.GameResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,8 @@ public class GameService {
         this.restTemplate = restTemplate;
     }
 
-    public void handleRound(Game game, CardStat choosenStat) {
+    public GameResponse handleRound(String gameId) {
         // TODO
+        return new GameResponse();
     }
 }
