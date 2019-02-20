@@ -21,6 +21,11 @@ public class WebController {
     @Autowired
     FileStorageService fileStorageService;
 
+    @Autowired
+    public WebController(FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
+    }
+
     @GetMapping(value = "/images/{fileName:.+}", produces = MediaType.ALL_VALUE)
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
