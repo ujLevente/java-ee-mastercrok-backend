@@ -1,4 +1,4 @@
-package lahsivjar.spring.websocket.template;
+package com.codecool.websocket.repository;
 
 import java.util.List;
 import java.util.Map;

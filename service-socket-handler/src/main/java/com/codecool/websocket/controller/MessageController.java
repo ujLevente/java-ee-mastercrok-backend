@@ -1,7 +1,8 @@
-package lahsivjar.spring.websocket.template;
+package com.codecool.websocket.controller;
 
 import java.util.*;
 
+import com.codecool.websocket.repository.ChatHistoryDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,16 +46,16 @@ public class MessageController {
     }
 
     @RequestMapping("/join-game/{gameId}")
-    public boolean joinGame(@PathVariable String gameId) {
+    public HttpStatus joinGame(@PathVariable String gameId) {
         log.info("joining game on gameId = " + gameId);
 
         if (!gameIds.contains(gameId)) {
             log.info("failed to join game: game id not exists");
-            return false;
+            return HttpStatus.NOT_FOUND;
         }
 
         // TODO ask data for game, snad data to specific websocket
         template.convertAndSend("/topic/" + gameId, "TODO data to start game");
-        return true;
+        return HttpStatus.OK;
     }
 }
