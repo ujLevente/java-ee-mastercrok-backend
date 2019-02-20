@@ -46,16 +46,19 @@ public class MessageController {
     }
 
     @RequestMapping("/join-game/{gameId}")
-    public HttpStatus joinGame(@PathVariable String gameId) {
+    public Map<String, Boolean> joinGame(@PathVariable String gameId) {
         log.info("joining game on gameId = " + gameId);
+        HashMap<String, Boolean> response = new HashMap<>();
+        response.put("status", true);
 
         if (!gameIds.contains(gameId)) {
             log.info("failed to join game: game id not exists");
-            return HttpStatus.NOT_FOUND;
+            response.put("status", false);
+            return response;
         }
 
         // TODO ask data for game, snad data to specific websocket
         template.convertAndSend("/topic/" + gameId, "TODO data to start game");
-        return HttpStatus.OK;
+        return response;
     }
 }
