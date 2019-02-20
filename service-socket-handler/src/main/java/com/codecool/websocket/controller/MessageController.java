@@ -49,7 +49,6 @@ public class MessageController {
     public Map<String, Boolean> joinGame(@PathVariable String gameId) {
         log.info("joining game on gameId = " + gameId);
         HashMap<String, Boolean> response = new HashMap<>();
-        response.put("status", true);
 
         if (!gameIds.contains(gameId)) {
             log.info("failed to join game: game id not exists");
@@ -57,6 +56,7 @@ public class MessageController {
             return response;
         }
 
+        response.put("status", true);
         // TODO ask data for game, snad data to specific websocket
         template.convertAndSend("/topic/" + gameId, "TODO data to start game");
         return response;
