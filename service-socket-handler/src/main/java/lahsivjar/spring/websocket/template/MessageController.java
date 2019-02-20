@@ -44,10 +44,17 @@ public class MessageController {
         return HttpStatus.OK;
     }
 
-//    @RequestMapping("/start/{gameId}")
-//    public List<Map<String, String>> getChatHistory() {
-//        System.out.println("Bármi");
-//        return chatHistoryDao.get();
-//        template.convertAndSend("/topic/${gameId}", {start });
-//    }
+    @RequestMapping("/join-game/{gameId}")
+    public boolean joinGame(@PathVariable String gameId) {
+        log.info("joining game on gameId = " + gameId);
+
+        if (!gameIds.contains(gameId)) {
+            log.info("failed to join game: game id not exists");
+            return false;
+        }
+
+        // TODO ask data for game, snad data to specific websocket
+        template.convertAndSend("/topic/" + gameId, "TODO data to start game");
+        return true;
+    }
 }
