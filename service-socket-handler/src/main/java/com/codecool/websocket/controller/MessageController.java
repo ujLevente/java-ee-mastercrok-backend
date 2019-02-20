@@ -3,6 +3,7 @@ package com.codecool.websocket.controller;
 import java.util.*;
 
 import com.codecool.websocket.repository.ChatHistoryDao;
+import com.codecool.websocket.service.GamePlayServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,19 +13,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
 @CrossOrigin
+@Service
 @Slf4j
 public class MessageController {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${gameplay.url}")
-    private String gamePlayUrl;
+    private GamePlayServiceHandler gamePlayServiceHandler;
 
     @Autowired
     private ChatHistoryDao chatHistoryDao;
@@ -51,12 +51,7 @@ public class MessageController {
     public HttpStatus create(@PathVariable String gameId, @PathVariable String username) {
         log.info("starting game with gameId: " + gameId);
         gameIds.add(gameId);
-        Map<String, String> gameData = new HashMap<>();
-        gameData.put("gameId", gameId);
-        gameData.put("username", username);
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
-        ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/creation", HttpMethod.POST, request, String.class);
+        gamePlayServiceHandler.createFirstUser(gameId, username);
         return HttpStatus.OK;
     }
 
@@ -73,8 +68,8 @@ public class MessageController {
 
         response.put("status", true);
         // TODO ask data for game, snad data to specific websocket
-        String gameData = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
-        template.convertAndSend("/topic/" + gameId, gameData);
+        //String gameData = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
+        template.convertAndSend("/topic/" + gameId, "dataaaaaaaaaaaaaa");
         return response;
     }
 }
