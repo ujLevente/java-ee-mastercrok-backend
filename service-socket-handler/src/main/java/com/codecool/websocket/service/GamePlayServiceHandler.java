@@ -39,4 +39,10 @@ public class GamePlayServiceHandler {
         ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/get-next-round/" + gameId, HttpMethod.POST ,request,String.class);
         return response.getBody();
     }
+
+
+    public String getNextRound(String gameId){
+        String response = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
+        return response;
+    }
 }

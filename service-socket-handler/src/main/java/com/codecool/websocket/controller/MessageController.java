@@ -36,9 +36,8 @@ public class MessageController {
      */
     @MessageMapping("/all")
     public void post(Map<String, String> gameData) {
-
-
-        template.convertAndSend("/topic/" + gameData.get("gameId"), "working");
+        String nextRound = gamePlayServiceHandler.getNextRound(gameData.get("gameId"));
+        template.convertAndSend("/topic/" + gameData.get("gameId"), nextRound);
     }
 
 
