@@ -55,8 +55,8 @@ public class MessageController {
         return HttpStatus.OK;
     }
 
-    @RequestMapping("/join-game/{gameId}")
-    public Map<String, Boolean> joinGame(@PathVariable String gameId) {
+    @RequestMapping("/join-game/{gameId}/{username}")
+    public Map<String, Boolean> joinGame(@PathVariable String gameId, @PathVariable String username) {
         log.info("joining game on gameId = " + gameId);
         HashMap<String, Boolean> response = new HashMap<>();
 
@@ -68,8 +68,8 @@ public class MessageController {
 
         response.put("status", true);
         // TODO ask data for game, snad data to specific websocket
-        //String gameData = restTemplate.getForEntity(gamePlayUrl + "/get-next-round/" + gameId, String.class).getBody();
-        template.convertAndSend("/topic/" + gameId, "dataaaaaaaaaaaaaa");
+        String gameData = gamePlayServiceHandler.joinsecondUser(gameId, username);
+        template.convertAndSend("/topic/" + gameId, gameData);
         return response;
     }
 }

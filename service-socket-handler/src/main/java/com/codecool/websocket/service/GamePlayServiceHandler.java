@@ -29,4 +29,14 @@ public class GamePlayServiceHandler {
         HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
         ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/creation", HttpMethod.POST, request, String.class);
     }
+
+
+    public String joinsecondUser(String gameId, String username){
+        Map<String, String> gameData = new HashMap<>();
+        gameData.put("gameId", gameId);
+        gameData.put("username", username);
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(gameData);
+        ResponseEntity<String> response = restTemplate.exchange(gamePlayUrl + "/get-next-round/" + gameId, HttpMethod.POST ,request,String.class);
+        return response.getBody();
+    }
 }
