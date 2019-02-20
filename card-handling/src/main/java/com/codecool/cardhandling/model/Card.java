@@ -18,11 +18,11 @@ public class Card {
 
     @GeneratedValue
     @Id
-    private long id;
+    private int id;
 
-    private String name;
+    private String title;
 
-    private String imgUrl;
+    private String url;
 
     private int power;
 
