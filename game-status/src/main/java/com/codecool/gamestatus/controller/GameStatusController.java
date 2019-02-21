@@ -54,10 +54,10 @@ public class GameStatusController {
 
 
     //TODO fix to correct path
-    @GetMapping("/get-next-round/{gameId}")
-    public Game nextRound(@PathVariable String gameId) {
+    @GetMapping("/get-next-round/{gameId}/{stat}")
+    public Game nextRound(@PathVariable String gameId, @PathVariable String stat) {
         Game game = gameHandlerService.getGameById(gameId);
-        gameHandlerService.playOneRound(game, "power");
+        gameHandlerService.playOneRound(game, stat);
         log.info(game.toString());
         return game;
     }

@@ -39,7 +39,7 @@ public class MessageController {
     @MessageMapping("/all")
     public void post(Map<String, String> gameData) {
         //String nextRound = gameServiceHandler.getNextRound(gameData.get("gameId"));
-        template.convertAndSend("/topic/" + gameData.get("gameId"), "nextRound");
+        template.convertAndSend("/topic/" + gameData.get("gameId"), gameData.get("selectedStat"));
     }
 
 
@@ -65,20 +65,21 @@ public class MessageController {
         response.put("status", true);
         //String gameData = gameServiceHandler.joinsecondUser(gameId, username);
         template.convertAndSend("/topic/" + gameId, "OK");
-        newRound(gameId, username);
+        newRound(gameId,"empty", username);
         System.out.println("OKI");
         return response;
     }
 
-    @RequestMapping("/get-next-round/{gameId}")
-    public String newRound(@PathVariable String gameId, String username){
-        System.out.println("MEGHÍÍÍÍÍÍÍTTTA");
+    @RequestMapping("/get-next-round/{gameId}/{stat}")
+    public String newRound(@PathVariable String gameId, @PathVariable(required = false) String stat ,String username){
         System.out.println(gameId);
-
-        String gameData = gameServiceHandler.joinsecondUser(gameId, username);
-
-        String nextRound = gameServiceHandler.getNextRound(gameId);
-
+        String gameData;
+        if(stat.equals("empty")){
+            gameData = gameServiceHandler.joinsecondUser(gameId, username);
+        }else {
+            gameData = gameServiceHandler.getNextRound(gameId, stat);
+        }
+        System.out.println("STAAAAAAAAT: " + stat);
         return gameData;
     }
 

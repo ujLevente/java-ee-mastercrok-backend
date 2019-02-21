@@ -18,7 +18,7 @@ public class GameServiceHandler {
     @Value("${game.url}")
     private String gameUrl;
 
-    public void createFirstUser(String gameId, String username){
+    public void createFirstUser(String gameId, String username) {
         log.info("Calling: " + gameUrl + "/creat-game/{gameId}/{username}");
 
         ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/create-game/" + gameId + "/" + username, String.class);
@@ -27,7 +27,7 @@ public class GameServiceHandler {
 
     }
 
-    public String joinsecondUser(String gameId, String username){
+    public String joinsecondUser(String gameId, String username) {
         log.info("Calling: " + gameUrl + "/join-game/{gameId}/{username}");
 
         ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/join-game/" + gameId + "/" + username, String.class);
@@ -36,10 +36,10 @@ public class GameServiceHandler {
     }
 
 
-    public String getNextRound(String gameId){
-        log.info("Calling: " + gameUrl + "/get-next-round/{gameId}");
+    public String getNextRound(String gameId, String stat) {
+        log.info("Calling: " + gameUrl + "/get-next-round/{gameId}/{stat}");
 
-        ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/get-next-round/" + gameId, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/get-next-round/" + gameId + "/" + stat, String.class);
 
         return response.getBody();
     }
