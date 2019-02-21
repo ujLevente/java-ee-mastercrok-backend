@@ -3,17 +3,23 @@ package com.codecool.websocket.controller;
 import java.util.*;
 
 import com.codecool.websocket.repository.ChatHistoryDao;
+import com.codecool.websocket.service.GamePlayServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@Service
 @Slf4j
 public class MessageController {
+
+    @Autowired
+    private GamePlayServiceHandler gamePlayServiceHandler;
 
     @Autowired
     private ChatHistoryDao chatHistoryDao;
@@ -30,22 +36,22 @@ public class MessageController {
      */
     @MessageMapping("/all")
     public void post(Map<String, String> gameData) {
-
-
-        template.convertAndSend("/topic/" + gameData.get("gameId"), "working");
+        String nextRound = gamePlayServiceHandler.getNextRound(gameData.get("gameId"));
+        template.convertAndSend("/topic/" + gameData.get("gameId"), nextRound);
     }
 
 
-    @RequestMapping("/create-game/{gameId}")
-    public HttpStatus create(@PathVariable String gameId) {
-        log.info("starting game with gameId: " + gameId);
+    @RequestMapping("/create-game/{gameId}/{username}")
+    public HttpStatus create(@PathVariable String gameId, @PathVariable String username) {
+        log.info(username + " starting game with gameId: " + gameId);
         gameIds.add(gameId);
+        gamePlayServiceHandler.createFirstUser(gameId, username);
         return HttpStatus.OK;
     }
 
-    @RequestMapping("/join-game/{gameId}")
-    public Map<String, Boolean> joinGame(@PathVariable String gameId) {
-        log.info("joining game on gameId = " + gameId);
+    @RequestMapping("/join-game/{gameId}/{username}")
+    public Map<String, Boolean> joinGame(@PathVariable String gameId, @PathVariable String username) {
+        log.info(username +" joining game on gameId = " + gameId);
         HashMap<String, Boolean> response = new HashMap<>();
 
         if (!gameIds.contains(gameId)) {
@@ -55,8 +61,8 @@ public class MessageController {
         }
 
         response.put("status", true);
-        // TODO ask data for game, snad data to specific websocket
-        template.convertAndSend("/topic/" + gameId, "TODO data to start game");
+        String gameData = gamePlayServiceHandler.joinsecondUser(gameId, username);
+        template.convertAndSend("/topic/" + gameId, gameData);
         return response;
     }
 }
