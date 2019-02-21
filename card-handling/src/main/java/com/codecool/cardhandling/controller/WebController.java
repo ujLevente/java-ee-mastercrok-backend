@@ -1,5 +1,7 @@
 package com.codecool.cardhandling.controller;
 
+import com.codecool.cardhandling.model.Card;
+import com.codecool.cardhandling.repository.CardRepository;
 import com.codecool.cardhandling.service.FileStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 
 @RestController
 @Slf4j
@@ -22,8 +28,12 @@ public class WebController {
     FileStorageService fileStorageService;
 
     @Autowired
-    public WebController(FileStorageService fileStorageService) {
+    CardRepository cardRepository;
+
+    @Autowired
+    public WebController(FileStorageService fileStorageService, CardRepository cardRepository) {
         this.fileStorageService = fileStorageService;
+        this.cardRepository = cardRepository;
     }
 
     @GetMapping(value = "/images/{fileName:.+}", produces = MediaType.ALL_VALUE)
@@ -48,6 +58,21 @@ public class WebController {
                 .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @GetMapping("/card/createDeck")
+    public Queue<Card> addCard() {
+        List<Card> allCard = cardRepository.findAll();
+        Random random = new Random();
+        Queue<Card> deck = new LinkedList<>();
+        while (deck.size() != 10) {
+            Card card = allCard.get(random.nextInt(allCard.size()-1) + 1);
+            if (!deck.contains(card)) {
+                deck.add(card);
+            }
+        }
+        log.info(deck.toString());
+        return deck;
     }
 
 }

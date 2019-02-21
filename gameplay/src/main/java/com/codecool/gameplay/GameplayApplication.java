@@ -1,4 +1,4 @@
-package com.codecool.websocket;
+package com.codecool.gameplay;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class Application {
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
+public class GameplayApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GameplayApplication.class, args);
     }
 
     @Bean
@@ -19,4 +20,5 @@ public class Application {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 }
