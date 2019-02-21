@@ -23,8 +23,8 @@ public class GamePlayServiceHandler {
     public void createFirstUser(String gameId, String username){
         HttpEntity<MultiValueMap<String, String>> request = createRequestForGamePlay(gameId, username);
 
-        log.info("Calling: " + gamePlayUrl + "/creation");
-        ResponseEntity<String> response = restTemplate.postForEntity(gamePlayUrl + "/creation", request , String.class);
+        log.info("Calling: " + gamePlayUrl + "/create-game");
+        ResponseEntity<String> response = restTemplate.postForEntity(gamePlayUrl + "/create-game", request , String.class);
         System.out.println(response.getBody());
 
     }
@@ -46,13 +46,13 @@ public class GamePlayServiceHandler {
         return response;
     }
 
-    private HttpEntity<MultiValueMap<String, String>> createRequestForGamePlay(String gameId, String username) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> gameData = new LinkedMultiValueMap<>();
-        gameData.add("gameId", gameId);
-        gameData.add("username", username);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(gameData, headers);
-        return request;
-    }
+//    private HttpEntity<MultiValueMap<String, String>> createRequestForGamePlay(String gameId, String username) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        MultiValueMap<String, String> gameData = new LinkedMultiValueMap<>();
+//        gameData.add("gameId", gameId);
+//        gameData.add("username", username);
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(gameData, headers);
+//        return request;
+//    }
 }
