@@ -1,7 +1,5 @@
 package com.codecool.websocket.controller;
 
-import java.util.*;
-
 import com.codecool.websocket.service.GameServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @CrossOrigin
@@ -59,6 +65,7 @@ public class MessageController {
         response.put("status", true);
         String gameData = gameServiceHandler.joinsecondUser(gameId, username);
         template.convertAndSend("/topic/" + gameId, gameData);
+        System.out.println(gameData);
         return response;
     }
 }

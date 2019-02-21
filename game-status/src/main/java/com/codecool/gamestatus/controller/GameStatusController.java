@@ -35,6 +35,7 @@ public class GameStatusController {
         Game game = new Game(gameId, p1Deck, p2Deck);
         game.setPlayerOne(player1);
         gameHandlerService.getActiveGames().add(game);
+        log.info("Game created with: " + gameId + " game id");
     }
 
     @GetMapping("/join-game/{gameId}/{playerName}")
@@ -45,6 +46,7 @@ public class GameStatusController {
         if (game != null && game.getPlayerTwo() == null) {
             game.setPlayerTwo(player2);
         }
+        log.info("Game id: " + game.getId() + " Player1: " + game.getPlayerOne() + " Player2: " + game.getPlayerTwo());
         return game;
     }
 
@@ -54,7 +56,6 @@ public class GameStatusController {
     public Game nextRound(@PathVariable String gameId) {
         Game game = gameHandlerService.getGameById(gameId);
         log.info(game.toString());
-
         return game;
     }
 

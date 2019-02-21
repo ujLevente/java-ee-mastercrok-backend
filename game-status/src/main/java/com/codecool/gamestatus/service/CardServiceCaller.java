@@ -20,7 +20,7 @@ public class CardServiceCaller {
     private String baseUrl;
 
     public Queue<CardServiceResult> getPlayerDeck() {
-        Queue<CardServiceResult> body = restTemplate.getForEntity(baseUrl + "/card/createDeck", Queue.class).getBody();
+        Queue<CardServiceResult> body = restTemplate.getForEntity(baseUrl + "card/createDeck", Queue.class).getBody();
         log.info(body.toString());
         return body;
     }

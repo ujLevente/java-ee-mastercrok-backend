@@ -35,6 +35,8 @@ public class GameHandlerService {
     }
 
     public void playOneRound(Game game, String attack) {
+        game.setP1FirstCard();
+        game.setP2FirstCard();
         int p1Stat = 0;
         int p2Stat = 0;
         switch (attack) {

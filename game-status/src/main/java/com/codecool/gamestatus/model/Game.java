@@ -27,6 +27,14 @@ public class Game {
         this.id = id;
         playerOneCardList = p1Deck;
         playerTwoCardList = p2Deck;
-
     }
+
+    public void setP1FirstCard() {
+        p1FirstCard = playerOneCardList.remove();
+    }
+
+    public void setP2FirstCard() {
+        p2FirstCard = playerTwoCardList.remove();
+    }
+
 }
