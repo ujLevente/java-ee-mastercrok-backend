@@ -51,4 +51,13 @@ public class GameStatusController {
         gamesHandlerService.getActiveGames().add(game);
     }
 
+    @RequestMapping(value = "/join-game", headers = "Accept=application/json")
+    public void joinGame(@RequestBody Map<String, String> data) {
+        Game game = gamesHandlerService.getGameById(data.get("gameId"));
+        Player player2 = new Player(data.get("playerName"));
+        if (game != null) {
+            game.setPlayerTwo(player2);
+        }
+    }
+
 }
