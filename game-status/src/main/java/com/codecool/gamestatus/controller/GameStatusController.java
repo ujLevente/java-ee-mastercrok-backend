@@ -26,13 +26,9 @@ public class GameStatusController {
     @Autowired
     private GamesHandlerService gamesHandlerService;
 
-//    "gameId"
-//    "playerName"
-//
     @GetMapping("/create-game/{id}/{playerName}")
     public void initGame(@PathVariable(value = "id") String gameId,
                          @PathVariable(value = "playerName") String playerName) {
-//        cardServiceCaller.getPlayerDeck();
         Player player1 = new Player(playerName);
         Queue<CardServiceResult> p1Deck = cardServiceCaller.getPlayerDeck();
         Queue<CardServiceResult> p2Deck = cardServiceCaller.getPlayerDeck();
@@ -61,13 +57,5 @@ public class GameStatusController {
 
         return game;
     }
-
-
-//    @PostMapping(value = "/creation", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//    public String gameCreation(@RequestBody MultiValueMap<String, String> gameData){
-//        log.info(gameData.get("username").get(0) + " is registering to the game with id: " + gameData.get("gameId").get(0));
-//        System.out.println(gameData.get("username").get(0));
-//        return "LOL";
-//    }
 
 }
