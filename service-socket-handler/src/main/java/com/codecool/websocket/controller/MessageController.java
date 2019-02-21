@@ -3,7 +3,7 @@ package com.codecool.websocket.controller;
 import java.util.*;
 
 import com.codecool.websocket.repository.ChatHistoryDao;
-import com.codecool.websocket.service.GamePlayServiceHandler;
+import com.codecool.websocket.service.GameServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class MessageController {
 
     @Autowired
-    private GamePlayServiceHandler gamePlayServiceHandler;
+    private GameServiceHandler gameServiceHandler;
 
     @Autowired
     private ChatHistoryDao chatHistoryDao;
@@ -36,7 +36,7 @@ public class MessageController {
      */
     @MessageMapping("/all")
     public void post(Map<String, String> gameData) {
-        String nextRound = gamePlayServiceHandler.getNextRound(gameData.get("gameId"));
+        String nextRound = gameServiceHandler.getNextRound(gameData.get("gameId"));
         template.convertAndSend("/topic/" + gameData.get("gameId"), nextRound);
     }
 
@@ -45,7 +45,7 @@ public class MessageController {
     public HttpStatus create(@PathVariable String gameId, @PathVariable String username) {
         log.info(username + " starting game with gameId: " + gameId);
         gameIds.add(gameId);
-        gamePlayServiceHandler.createFirstUser(gameId, username);
+        gameServiceHandler.createFirstUser(gameId, username);
         return HttpStatus.OK;
     }
 
@@ -61,7 +61,7 @@ public class MessageController {
         }
 
         response.put("status", true);
-        String gameData = gamePlayServiceHandler.joinsecondUser(gameId, username);
+        String gameData = gameServiceHandler.joinsecondUser(gameId, username);
         template.convertAndSend("/topic/" + gameId, gameData);
         return response;
     }
