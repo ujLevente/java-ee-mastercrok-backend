@@ -15,7 +15,7 @@ public class GameServiceHandler {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${gameplay.url}")
+    @Value("${game.url}")
     private String gameUrl;
 
     public void createFirstUser(String gameId, String username){
