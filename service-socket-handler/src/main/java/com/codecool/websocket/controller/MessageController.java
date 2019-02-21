@@ -2,7 +2,6 @@ package com.codecool.websocket.controller;
 
 import java.util.*;
 
-import com.codecool.websocket.repository.ChatHistoryDao;
 import com.codecool.websocket.service.GameServiceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class MessageController {
 
     @Autowired
     private GameServiceHandler gameServiceHandler;
-
-    @Autowired
-    private ChatHistoryDao chatHistoryDao;
 
     @Autowired
     private SimpMessagingTemplate template;
