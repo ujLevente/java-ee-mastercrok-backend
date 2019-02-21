@@ -43,4 +43,12 @@ public class GameServiceHandler {
 
         return response.getBody();
     }
+
+    public String getCurrentRound(String gameId) {
+        log.info("Calling " + gameUrl + "/current-round/{gameId}");
+
+        ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/current-round/" + gameId, String.class);
+
+        return response.getBody();
+    }
 }

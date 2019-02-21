@@ -34,6 +34,8 @@ public class GameStatusController {
         Queue<CardServiceResult> p2Deck = cardServiceCaller.getPlayerDeck();
         Game game = new Game(gameId, p1Deck, p2Deck);
         game.setPlayerOne(player1);
+        game.setP1FirstCard();
+        game.setP2FirstCard();
         gameHandlerService.getActiveGames().add(game);
         log.info("Game created with: " + gameId + " game id");
     }
@@ -60,4 +62,11 @@ public class GameStatusController {
         return game;
     }
 
+
+    @GetMapping("/current-round/{gameId}")
+    public Game getCurrentRound(@PathVariable String gameId){
+        Game game = gameHandlerService.getGameById(gameId);
+        log.info("Current game is " + game);
+        return game;
+    }
 }
