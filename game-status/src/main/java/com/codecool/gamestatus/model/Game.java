@@ -21,6 +21,8 @@ public class Game {
     private int p1Score = 0;
     private int p2Score = 0;
 
+    private Player attacker;
+
     public Game(String id, Queue<CardServiceResult> p1Deck, Queue<CardServiceResult> p2Deck) {
         this.id = id;
         playerOneCardList = p1Deck;
