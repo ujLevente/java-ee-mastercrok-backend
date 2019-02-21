@@ -55,6 +55,7 @@ public class GameStatusController {
     @GetMapping("/get-next-round/{gameId}")
     public Game nextRound(@PathVariable String gameId) {
         Game game = gameHandlerService.getGameById(gameId);
+        gameHandlerService.playOneRound(game, "power");
         log.info(game.toString());
         return game;
     }
