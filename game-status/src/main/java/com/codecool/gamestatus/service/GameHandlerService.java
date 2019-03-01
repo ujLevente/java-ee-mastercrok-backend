@@ -34,7 +34,7 @@ public class GameHandlerService {
         }
     }
 
-    public void playOneRound(Game game, String attack) {
+    public void playOneRound(Game game, String attack, Integer roundNumber) {
         int p1Stat = 0;
         int p2Stat = 0;
         switch (attack) {
@@ -58,5 +58,7 @@ public class GameHandlerService {
             game.setP2Score(game.getP2Score() + 1);
             game.setAttacker(game.getPlayerTwo());
         }
+        game.setP1FirstCard(roundNumber);
+        game.setP2FirstCard(roundNumber);
     }
 }

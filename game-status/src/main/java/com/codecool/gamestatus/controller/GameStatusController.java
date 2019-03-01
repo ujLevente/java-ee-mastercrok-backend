@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Queue;
 
 @RestController
@@ -30,12 +31,12 @@ public class GameStatusController {
     public void initGame(@PathVariable(value = "id") String gameId,
                          @PathVariable(value = "playerName") String playerName) {
         Player player1 = new Player(playerName);
-        Queue<CardServiceResult> p1Deck = cardServiceCaller.getPlayerDeck();
-        Queue<CardServiceResult> p2Deck = cardServiceCaller.getPlayerDeck();
+        ArrayList<CardServiceResult> p1Deck = cardServiceCaller.getPlayerDeck();
+        ArrayList<CardServiceResult> p2Deck = cardServiceCaller.getPlayerDeck();
         Game game = new Game(gameId, p1Deck, p2Deck);
         game.setPlayerOne(player1);
-        game.setP1FirstCard();
-        game.setP2FirstCard();
+        game.setP1FirstCard(0);
+        game.setP2FirstCard(0);
         gameHandlerService.getActiveGames().add(game);
         log.info("Game created with: " + gameId + " game id");
     }
@@ -47,6 +48,7 @@ public class GameStatusController {
         Player player2 = new Player(playerName);
         if (game != null && game.getPlayerTwo() == null) {
             game.setPlayerTwo(player2);
+            game.setAttacker(game.getPlayerOne());
         }
         log.info("Game id: " + game.getId() + " Player1: " + game.getPlayerOne() + " Player2: " + game.getPlayerTwo());
         return game;
@@ -54,10 +56,11 @@ public class GameStatusController {
 
 
     //TODO fix to correct path
-    @GetMapping("/get-next-round/{gameId}/{stat}")
-    public Game nextRound(@PathVariable String gameId, @PathVariable String stat) {
+    @GetMapping("/get-next-round/{gameId}/{stat}/{roundNumber}")
+    public Game nextRound(@PathVariable String gameId, @PathVariable String stat, @PathVariable Integer roundNumber) {
         Game game = gameHandlerService.getGameById(gameId);
-        gameHandlerService.playOneRound(game, stat);
+        gameHandlerService.playOneRound(game, stat, roundNumber);
+        game.setRound(roundNumber);
         log.info(game.toString());
         return game;
     }

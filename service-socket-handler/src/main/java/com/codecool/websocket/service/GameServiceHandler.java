@@ -36,10 +36,10 @@ public class GameServiceHandler {
     }
 
 
-    public String getNextRound(String gameId, String stat) {
+    public String getNextRound(String gameId, String stat, Integer roundNumber) {
         log.info("Calling: " + gameUrl + "/get-next-round/{gameId}/{stat}");
 
-        ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/get-next-round/" + gameId + "/" + stat, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(gameUrl + "/get-next-round/" + gameId + "/" + stat + "/" + roundNumber, String.class);
 
         return response.getBody();
     }

@@ -46,7 +46,7 @@ public class WebController {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
-            log.info("Could not determine file type.");
+            log.error("Could not determine file type.");
         }
 
         // Fallback to the default content type if type could not be determined
