@@ -79,9 +79,9 @@ public class MessageController {
         }else {
             gameData = gameServiceHandler.getNextRound(gameId, stat, roundNumber);
         }
-        System.out.println(gameData);
-        System.out.println("STAAAAAAAAT: " + stat);
-        System.out.println("ROUND NUMBER: " + roundNumber);
+        log.debug("Current game data: ", gameData);
+        log.debug("Current stat: ", stat);
+        log.debug("Round number: ", roundNumber);
         return gameData;
     }
 
